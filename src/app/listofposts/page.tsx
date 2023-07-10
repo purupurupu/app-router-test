@@ -3,19 +3,26 @@ const getPostsData = async () => {
   return res.json();
 };
 
-const getUsesData = async () => {
+const getUsersData = async () => {
   const res = await fetch("https://jsonplaceholder.typicode.com/users");
   return res.json();
 };
 
 export default async function ListOfPosts() {
-  const posts = await getPostsData();
+  const [posts, users] = await Promise.all([getPostsData(), getUsersData()]);
+  // console.log(users);
   return (
     <div>
       {posts.map((post: any) => {
         // return key and title of each post
         return <div key={post.id}>{post.title}</div>;
       })}
+      <div>
+        {users.map((user: any) => {
+          // return key and title of each post
+          return <div key={user.id}>{user.name}</div>;
+        })}
+      </div>
     </div>
   );
 }
